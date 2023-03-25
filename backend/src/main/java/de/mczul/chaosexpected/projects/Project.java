@@ -1,14 +1,13 @@
 package de.mczul.chaosexpected.projects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import de.mczul.chaosexpected.accounts.registration.Registration;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -28,6 +27,9 @@ public class Project {
 
     @Column(name = "description")
     protected String description;
+
+    @OneToMany(mappedBy = "project")
+    protected Set<Registration> registrations;
 
     @Column(name = "created_at")
     @ToString.Include

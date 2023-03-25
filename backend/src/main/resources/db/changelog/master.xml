@@ -18,7 +18,9 @@
 
         <!-- Tables -->
         <createTable schemaName="meta" tableName="projects">
-            <column name="id" type="uuid" defaultValueComputed="random_uuid()">
+            <column name="id"
+                    type="uuid"
+                    defaultValueComputed="random_uuid()">
                 <constraints primaryKey="true" />
             </column>
             <column name="name" type="varchar(255)">
@@ -27,7 +29,9 @@
             <column name="description" type="text">
                 <constraints nullable="false" />
             </column>
-            <column name="created_at" type="timestamp">
+            <column name="created_at"
+                    type="timestamp"
+                    defaultValueComputed="now()">
                 <constraints nullable="false" />
             </column>
             <column name="starts_at" type="timestamp">
@@ -37,12 +41,40 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+        <addUniqueConstraint constraintName="un_project_name"
+                             schemaName="meta"
+                             tableName="projects"
+                             columnNames="name" />
+
+        <createTable schemaName="meta" tableName="registrations">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="project_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_address" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addUniqueConstraint constraintName="un_registration_email_address"
+                             schemaName="meta"
+                             tableName="registrations"
+                             columnNames="project_id, email_address" />
+        <addForeignKeyConstraint constraintName="fk_registration_project"
+                                 baseTableSchemaName="meta"
+                                 baseTableName="registrations"
+                                 baseColumnNames="project_id"
+                                 referencedTableSchemaName="meta"
+                                 referencedTableName="projects"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
 
         <createTable schemaName="base" tableName="persons">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" />
             </column>
-            <column name="project_id" type="uuid">
+            <column name="registration_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <column name="first_name" type="varchar(120)">
@@ -52,12 +84,12 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <addForeignKeyConstraint constraintName="fk_person_project"
+        <addForeignKeyConstraint constraintName="fk_person_registration"
                                  baseTableSchemaName="base"
                                  baseTableName="persons"
-                                 baseColumnNames="project_id"
+                                 baseColumnNames="registration_id"
                                  referencedTableSchemaName="meta"
-                                 referencedTableName="projects"
+                                 referencedTableName="registrations"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE" />
     </changeSet>

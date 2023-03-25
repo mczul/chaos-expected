@@ -3,6 +3,12 @@ GET http://localhost:8080/api/meta/projects
 Authorization: Basic user password
 Accept: application/json
 
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
 ### Create Project
 POST http://localhost:8080/api/meta/projects
 Authorization: Basic user password
@@ -16,11 +22,71 @@ Accept: application/json
   "endsAt": "2023-05-13T10:30:00Z"
 }
 
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.global.set("project_id", response.body.id);
+        client.assert(!!(client.global.get("project_id")), "Project ID could not be extracted.");
+    });
+%}
+
 ### Get Project by ID
-GET http://localhost:8080/api/meta/projects/
+GET http://localhost:8080/api/meta/projects/{{project_id}}
 Authorization: Basic user password
 Accept: application/json
 
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Create Registration
+
+POST http://localhost:8080/api/meta/projects/{{project_id}}/registrations
+Authorization: Basic user password
+Accept: application/json
+Content-Type: application/json
+
+{
+  "emailAddress": "max.mustermann@gmx.de"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.global.set("registration_id", response.body.id);
+        client.assert(!!(client.global.get("registration_id")), "Registration ID could not be extracted.");
+    });
+%}
+
+### Get registrations of project
+GET http://localhost:8080/api/meta/projects/{{project_id}}/registrations
+Authorization: Basic user password
+Accept: application/json
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(!!(response.body.content), "Content is falsy");
+        client.assert(response.body.content.length === 1, "Page does not contain expected elements.");
+    });
+%}
+
+### Get registration by id
+GET http://localhost:8080/api/meta/projects/{{project_id}}/registrations/{{registration_id}}
+Authorization: Basic user password
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.id === client.global.get("registration_id"), "Unexpected registration id");
+    });
+%}
 
 ### Delete Project
-DELETE http://localhost:8080/api/meta/projects/
+DELETE http://localhost:8080/api/meta/projects/{{project_id}}
+Authorization: Basic user password
+Accept: application/json
