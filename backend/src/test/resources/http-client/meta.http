@@ -41,6 +41,7 @@ Accept: application/json
     });
 %}
 
+########################################################################################################################
 ### Create Registration
 
 POST http://localhost:8080/api/meta/projects/{{project_id}}/registrations
@@ -49,7 +50,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "emailAddress": "max.mustermann@gmx.de"
+  "emailAddress": "xxx.mustermann@gmx.de"
 }
 
 > {%
@@ -86,6 +87,7 @@ Accept: application/json
     });
 %}
 
+########################################################################################################################
 ### Delete Project
 DELETE http://localhost:8080/api/meta/projects/{{project_id}}
 Authorization: Basic user password

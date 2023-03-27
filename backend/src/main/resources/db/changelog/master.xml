@@ -56,6 +56,11 @@
             <column name="email_address" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="created_at"
+                    type="timestamp"
+                    defaultValueComputed="now()">
+                <constraints nullable="false" />
+            </column>
         </createTable>
         <addUniqueConstraint constraintName="un_registration_email_address"
                              schemaName="meta"

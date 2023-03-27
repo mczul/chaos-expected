@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class Registration {
     @Id
     @Column(name = "id")
+    @ToString.Include
     protected UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,7 +25,11 @@ public class Registration {
     protected Project project;
 
     @Column(name = "email_address")
+    @ToString.Include
     protected String emailAddress;
 
+    @Column(name = "created_at")
+    @ToString.Include
+    protected Instant createdAt;
 
 }

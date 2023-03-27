@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "chaos-expected-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -38,6 +38,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.9.4",
+    "ng-packagr": "^15.2.2",
     "cypress": "latest"
   }
 }

@@ -1,0 +1,22 @@
+<article>
+
+  <ng-template #loading>
+    <h3>Lade Daten...</h3>
+  </ng-template>
+
+  <ng-container *ngIf="project | async as projectInfo else loading">
+    <ce-project-info [info]="projectInfo"/>
+
+    <ng-container *ngIf="registrationsLoaded | async else loading">
+      <ng-container *ngIf="registrations | async as knownRegistrations">
+        <ce-registration-form *ngIf="knownRegistrations.length === 0"
+                              [projectId]="projectInfo.id"
+                              (complete)="handleNewRegistration($event)"/>
+
+        <ce-registration-info *ngFor="let registrationInfo of knownRegistrations"
+                              [info]="registrationInfo"/>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+</article>

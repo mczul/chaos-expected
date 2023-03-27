@@ -82,8 +82,18 @@ public class MetaController {
     @Transactional(readOnly = true)
     @GetMapping("projects/{projectId}/registrations")
     public Page<RegistrationInfo> getRegistrations(@PathVariable UUID projectId, Pageable pageable) {
-        return registrationRepository.findAllByProject_Id(projectId, pageable)
+        return registrationRepository.findAllByProjectId(projectId, pageable)
                 .map(registrationMapper::toInfo);
     }
+
+    @Transactional(readOnly = true)
+    @GetMapping("projects/{projectId}/registrations/{registrationId}")
+    public ResponseEntity<RegistrationInfo> getProject(@PathVariable UUID projectId, @PathVariable UUID registrationId) {
+        return registrationRepository.findByProjectIdAndRegistrationId(projectId, registrationId)
+                .map(registrationMapper::toInfo)
+                .map(ResponseEntity::ok)
+                .orElseThrow();
+    }
+
 
 }
