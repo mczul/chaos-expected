@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {catchError, combineLatest, map, Observable, of, tap} from "rxjs";
+import {catchError, combineLatest, map, Observable, of, startWith, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {RegistrationCreateEvent} from "./registration-form.component";
 
@@ -16,6 +16,8 @@ export interface RegistrationInfo {
   emailAddress: string;
   createdAt: Date;
 }
+
+export type LoadingStatus = 'ACTIVE' | 'SUCCESS' | 'FAILURE';
 
 @Injectable({
   providedIn: null
@@ -48,19 +50,34 @@ export class RegistrationService {
     this.init();
   }
 
-  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<RegistrationInfo[]> {
+  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<RegistrationInfo[] | null> {
+    if(this.knownRegistrations.length === 0) {
+      console.warn('No known registrations... returning null.')
+      return of(null);
+    }
+    console.warn(`[RegistrationService] Found known registrations.`, this.knownRegistrations);
+
     return combineLatest(
       this.knownRegistrations
         .filter(coordinates => !projectId || coordinates.projectId === projectId)
-        .map(
-          coordinates => {
-            return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId)
-              .pipe(catchError(() => of(null)))
+        .map(coordinates => {
+          console.warn(coordinates);
+          if (!projectId) {
+            return of(null);
           }
-        )
+          if (coordinates.projectId !== projectId) {
+            return of(null);
+          }
+          return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId)
+            .pipe(catchError(() => of(null)))
+        })
     ).pipe(
-      map(results => results.filter(registration => !!registration)),
-      map(registrations => registrations as RegistrationInfo[]),
+      map(results => {
+        if(!results) {
+          return null;
+        }
+        return results.filter(registration => !!registration) as RegistrationInfo[];
+      }),
     );
   }
 

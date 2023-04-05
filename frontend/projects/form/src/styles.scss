@@ -7,3 +7,24 @@
 body {
     font-family: 'Courier New', Courier, monospace;
 }
+
+.ce-project {
+  position: relative;
+  margin: 1em;
+
+  border: dotted .1em red;
+}
+
+.ce-registration {
+  position: relative;
+  margin: 1em;
+
+  border: dotted .1em blue;
+
+  &::after {
+    content: 'Registration';
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

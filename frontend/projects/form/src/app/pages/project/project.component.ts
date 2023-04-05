@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {BehaviorSubject, filter, map, skip, Subject, switchMap, takeUntil} from "rxjs";
+import {BehaviorSubject, filter, finalize, map, skip, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {ProjectInfoComponent} from "../../../../../shared/src/lib/projects/project-info.component";
 import {ProjectInfo, ProjectService} from "../../../../../shared/src/lib/projects/project.service";
 import {environment} from "../../../environments/environment";
@@ -30,7 +30,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
   protected readonly project = this._projectCtrl$.asObservable();
   protected readonly _registrationsCtrl$ = new BehaviorSubject<RegistrationInfo[]>([]);
   protected readonly registrations = this._registrationsCtrl$.asObservable();
-  protected readonly registrationsLoaded = this.registrations.pipe(skip(1), map(() => true));
+  protected readonly _registrationsLoadedCtrl$ = new BehaviorSubject<boolean>(false);
+  protected readonly registrationsLoaded = this._registrationsLoadedCtrl$.asObservable();
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -62,14 +63,24 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.project.pipe(
       takeUntil(this._unsubscribe$),
       filter(project => !!project),
+      tap(project => console.warn(`[ProjectComponent] Project changed.`, project)),
       switchMap(project => this.registrationService.loadKnownRegistrations(
           environment.apiUrl,
-          project?.id
+          project!.id
         )
-      )
+      ),
     ).subscribe({
-      next: registrations => this._registrationsCtrl$.next(registrations),
-      error: err => console.error(`[ProjectComponent] Failed to fetch registrations for current project.`, err),
+      next: registrations => {
+        console.warn(registrations);
+        if (!!registrations) {
+          this._registrationsCtrl$.next(registrations);
+        }
+        this._registrationsLoadedCtrl$.next(true);
+      },
+      error: err => {
+        console.error(`[ProjectComponent] Failed to fetch registrations for current project.`, err);
+        this._registrationsLoadedCtrl$.next(true);
+      },
     })
   }
 

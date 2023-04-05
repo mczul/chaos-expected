@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -88,12 +89,22 @@ public class MetaController {
 
     @Transactional(readOnly = true)
     @GetMapping("projects/{projectId}/registrations/{registrationId}")
-    public ResponseEntity<RegistrationInfo> getProject(@PathVariable UUID projectId, @PathVariable UUID registrationId) {
+    public ResponseEntity<RegistrationInfo> getRegistration(@PathVariable UUID projectId, @PathVariable UUID registrationId) {
         return registrationRepository.findByProjectIdAndRegistrationId(projectId, registrationId)
                 .map(registrationMapper::toInfo)
                 .map(ResponseEntity::ok)
-                .orElseThrow();
+                .orElse(ResponseEntity.status(HttpStatus.GONE).build());
     }
 
+    @Transactional
+    @DeleteMapping("projects/{projectId}/registrations/{registrationId}")
+    public ResponseEntity<RegistrationInfo> deleteRegistration(@PathVariable UUID projectId, @PathVariable UUID registrationId) {
+        final var result = registrationRepository.findByProjectIdAndRegistrationId(projectId, registrationId)
+                .map(registrationMapper::toInfo)
+                .map(ResponseEntity::ok)
+                .orElseThrow();
+        registrationRepository.deleteById(registrationId);
+        return result;
+    }
 
 }

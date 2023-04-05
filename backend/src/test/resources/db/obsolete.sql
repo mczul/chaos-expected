@@ -1,0 +1,2 @@
+INSERT INTO meta.projects(id, name, description, created_at, starts_at, ends_at) VALUES
+                                ('12345678-90ab-cdef-0123-900000000001', 'First obsolete Project', 'Just a arbitrary description', '2023-01-01T10:00:00Z', '2023-03-01T12:00:00Z', '2023-03-02T20:00:00Z');

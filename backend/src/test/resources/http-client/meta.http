@@ -16,10 +16,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "My first test project",
+  "name": "My fancy project",
   "description": "This is my first test project",
-  "startsAt": "2023-05-12T12:34:56Z",
-  "endsAt": "2023-05-13T10:30:00Z"
+  "startsAt": "2023-06-01T12:00:00Z",
+  "endsAt": "2023-06-03T12:00:00Z"
 }
 
 > {%
