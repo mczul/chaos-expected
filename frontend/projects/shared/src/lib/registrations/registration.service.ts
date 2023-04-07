@@ -50,7 +50,7 @@ export class RegistrationService {
     this.init();
   }
 
-  protected verifyRegistrations(apiPrefix: string): Observable<RegistrationInfo[]> {
+  protected verifyKnownRegistrations(apiPrefix: string): Observable<RegistrationInfo[]> {
     return combineLatest(
       this.knownRegistrations.map(({projectId, registrationId}) => {
         return this.findRegistration(apiPrefix, projectId, registrationId).pipe(materialize());
@@ -80,18 +80,14 @@ export class RegistrationService {
 
     const queryList = this.knownRegistrations
       .filter(coordinates => !projectId || coordinates.projectId === projectId)
-      .map(coordinates => {
-        return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId);
-      });
+      .map(coordinates => this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId));
 
     if (queryList.length === 0) {
       return of([]);
     }
 
     return combineLatest(queryList).pipe(
-      map(results => {
-        return results.filter(registration => !!registration) as RegistrationInfo[];
-      }),
+      map(results => results.filter(registration => !!registration) as RegistrationInfo[]),
     );
   }
 
