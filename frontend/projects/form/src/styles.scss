@@ -8,14 +8,53 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
-.ce-project {
+/* ### Site ######################################################################################################### */
+
+cef-root {
+  display: block;
+  margin: 1em;
+
+  border: dashed .1em green;
+
+}
+
+/* ### Project ###################################################################################################### */
+
+cef-project {
+  display: block;
+  position: relative;
+  margin: 1em;
+
+  border: dashed .1em red;
+
+  &::after {
+    content: 'Project';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .2em;
+
+    border: solid .1em red;
+    border-radius: 0 0 0 .4em;
+
+    color: white;
+    background-color: red;
+    opacity: .75;
+  }
+}
+
+ce-project-info {
+  display: block;
   position: relative;
   margin: 1em;
 
   border: dotted .1em red;
 }
 
-.ce-registration {
+/* ### Registration ################################################################################################# */
+
+ce-registration-info {
+  display: block;
   position: relative;
   margin: 1em;
 
@@ -26,5 +65,13 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+    padding: .2em;
+
+    border: solid .1em blue;
+    border-radius: 0 0 0 .4em;
+
+    color: white;
+    background-color: blue;
+    opacity: .75;
   }
 }

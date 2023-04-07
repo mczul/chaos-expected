@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {BehaviorSubject, filter, finalize, map, skip, Subject, switchMap, takeUntil, tap} from "rxjs";
+import {BehaviorSubject, filter, map, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {ProjectInfoComponent} from "../../../../../shared/src/lib/projects/project-info.component";
 import {ProjectInfo, ProjectService} from "../../../../../shared/src/lib/projects/project.service";
 import {environment} from "../../../environments/environment";
@@ -26,8 +26,10 @@ import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrat
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   protected readonly _unsubscribe$ = new Subject<void>();
+
   protected readonly _projectCtrl$ = new BehaviorSubject<ProjectInfo | null>(null);
   protected readonly project = this._projectCtrl$.asObservable();
+
   protected readonly _registrationsCtrl$ = new BehaviorSubject<RegistrationInfo[]>([]);
   protected readonly registrations = this._registrationsCtrl$.asObservable();
   protected readonly _registrationsLoadedCtrl$ = new BehaviorSubject<boolean>(false);
@@ -51,7 +53,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         }
         return projectId;
       }),
-      switchMap(projectId => this.projectService.findProjectInfo(environment.apiUrl, projectId!)),
+      switchMap(projectId => this.projectService.findProjectInfo(environment.apiUrl, projectId)),
     ).subscribe({
       next: project => this._projectCtrl$.next(project),
       error: err => {
@@ -71,7 +73,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       ),
     ).subscribe({
       next: registrations => {
-        console.warn(registrations);
+        console.warn(`[ProjectComponent] Loaded known registrations for project.`, registrations);
         if (!!registrations) {
           this._registrationsCtrl$.next(registrations);
         }

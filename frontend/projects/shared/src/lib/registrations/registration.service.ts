@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {catchError, combineLatest, map, Observable, of, startWith, tap} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {catchError, combineLatest, map, materialize, Observable, of, tap} from "rxjs";
+import {HttpClient, HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RegistrationCreateEvent} from "./registration-form.component";
 
 const LOCAL_STORAGE_KEY_REGISTRATIONS = 'ce-registrations';
@@ -42,18 +42,39 @@ export class RegistrationService {
     this.init();
   }
 
+  protected forgetRegistration(coordinates: RegistrationCoordinates): void {
+    const known = this.knownRegistrations.filter(present =>
+      !(present.projectId === coordinates.projectId && present.registrationId === coordinates.registrationId)
+    );
+    localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, JSON.stringify(known));
+    this.init();
+  }
+
+  protected verifyRegistrations(apiPrefix: string): Observable<RegistrationInfo[]> {
+    return combineLatest(
+      this.knownRegistrations.map(({projectId, registrationId}) => {
+        return this.findRegistration(apiPrefix, projectId, registrationId).pipe(materialize());
+      })
+    ).pipe(
+      map(results => results
+        .filter(result => result.kind === 'N')
+        .map(result => result.value!))
+    );
+  }
+
   protected init(): void {
     this.knownRegistrations = this.loadRegistrations();
+
   }
 
   constructor(private httpClient: HttpClient) {
     this.init();
   }
 
-  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<RegistrationInfo[] | null> {
-    if(this.knownRegistrations.length === 0) {
-      console.warn('No known registrations... returning null.')
-      return of(null);
+  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<RegistrationInfo[]> {
+    if (this.knownRegistrations.length === 0) {
+      console.warn('[RegistrationService] No known registrations... returning null.')
+      return of([]);
     }
     console.warn(`[RegistrationService] Found known registrations.`, this.knownRegistrations);
 
@@ -61,21 +82,10 @@ export class RegistrationService {
       this.knownRegistrations
         .filter(coordinates => !projectId || coordinates.projectId === projectId)
         .map(coordinates => {
-          console.warn(coordinates);
-          if (!projectId) {
-            return of(null);
-          }
-          if (coordinates.projectId !== projectId) {
-            return of(null);
-          }
-          return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId)
-            .pipe(catchError(() => of(null)))
+          return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId);
         })
     ).pipe(
       map(results => {
-        if(!results) {
-          return null;
-        }
         return results.filter(registration => !!registration) as RegistrationInfo[];
       }),
     );
@@ -86,11 +96,23 @@ export class RegistrationService {
     projectId: string,
     registrationId: string
   ): Observable<RegistrationInfo> {
+    console.warn(`[RegistrationService] Loading registration ${registrationId} for project ${projectId}`);
+
     return this.httpClient
       .get<RegistrationInfo>(`${apiPrefix}/meta/projects/${projectId}/registrations/${registrationId}`)
-      .pipe(tap(found => this.rememberRegistration(
-        {projectId: found.projectId, registrationId: found.id}
-      )));
+      .pipe(
+        tap(() => this.rememberRegistration({projectId, registrationId})),
+        catchError((err) => {
+          console.warn(`[RegistrationService] Failed to find known registration.`, err);
+          if (err instanceof HttpErrorResponse) {
+            switch (err.status) {
+              case HttpStatusCode.Gone:
+                this.forgetRegistration({projectId, registrationId});
+            }
+          }
+          throw err;
+        }),
+      );
   }
 
   createRegistration(
@@ -100,9 +122,9 @@ export class RegistrationService {
   ): Observable<RegistrationInfo> {
     return this.httpClient
       .post<RegistrationInfo>(`${apiPrefix}/meta/projects/${projectId}/registrations`, event)
-      .pipe(tap(created => this.rememberRegistration(
-        {projectId: created.projectId, registrationId: created.id}
-      )));
+      .pipe(
+        tap(({projectId, id: registrationId}) => this.rememberRegistration({projectId, registrationId}))
+      );
   }
 
 }
