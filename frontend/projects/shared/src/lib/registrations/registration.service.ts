@@ -78,13 +78,17 @@ export class RegistrationService {
     }
     console.warn(`[RegistrationService] Found known registrations.`, this.knownRegistrations);
 
-    return combineLatest(
-      this.knownRegistrations
-        .filter(coordinates => !projectId || coordinates.projectId === projectId)
-        .map(coordinates => {
-          return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId);
-        })
-    ).pipe(
+    const queryList = this.knownRegistrations
+      .filter(coordinates => !projectId || coordinates.projectId === projectId)
+      .map(coordinates => {
+        return this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId);
+      });
+
+    if (queryList.length === 0) {
+      return of([]);
+    }
+
+    return combineLatest(queryList).pipe(
       map(results => {
         return results.filter(registration => !!registration) as RegistrationInfo[];
       }),

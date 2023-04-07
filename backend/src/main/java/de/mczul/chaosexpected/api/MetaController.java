@@ -53,7 +53,7 @@ public class MetaController {
         return projectRepository.findById(projectId)
                 .map(projectMapper::toInfo)
                 .map(ResponseEntity::ok)
-                .orElseThrow();
+                .orElse(ResponseEntity.status(HttpStatus.GONE).build());
     }
 
     @Transactional
