@@ -5,17 +5,27 @@ import {RegistrationCreateEvent} from "./registration-form.component";
 
 const LOCAL_STORAGE_KEY_REGISTRATIONS = 'ce-registrations';
 
-interface RegistrationCoordinates {
-  projectId: string;
-  registrationId: string;
+export namespace Registration {
+
+  export interface Coordinates {
+    projectId: string;
+    registrationId: string;
+  }
+
+  export function toCoordinates(source: Info): Coordinates {
+    return {projectId: source.projectId, registrationId: source.id};
+  }
+
+  export interface Info {
+    id: string;
+    projectId: string;
+    emailAddress: string;
+    createdAt: Date;
+  }
+
 }
 
-export interface RegistrationInfo {
-  id: string;
-  projectId: string;
-  emailAddress: string;
-  createdAt: Date;
-}
+
 
 export type LoadingStatus = 'ACTIVE' | 'SUCCESS' | 'FAILURE';
 
@@ -23,14 +33,14 @@ export type LoadingStatus = 'ACTIVE' | 'SUCCESS' | 'FAILURE';
   providedIn: null
 })
 export class RegistrationService {
-  protected knownRegistrations: ReadonlyArray<RegistrationCoordinates> = [];
+  protected knownRegistrations: ReadonlyArray<Registration.Coordinates> = [];
 
-  protected loadRegistrations(): RegistrationCoordinates[] {
+  protected loadRegistrations(): Registration.Coordinates[] {
     const localStorageContent = localStorage.getItem(LOCAL_STORAGE_KEY_REGISTRATIONS) ?? JSON.stringify([]);
-    return JSON.parse(localStorageContent) as RegistrationCoordinates[];
+    return JSON.parse(localStorageContent) as Registration.Coordinates[];
   }
 
-  protected rememberRegistration(newCoordinates: RegistrationCoordinates): void {
+  protected rememberRegistration(newCoordinates: Registration.Coordinates): void {
     const known = this.knownRegistrations.slice();
     if (known.some(present =>
       present.projectId === newCoordinates.projectId &&
@@ -42,7 +52,7 @@ export class RegistrationService {
     this.init();
   }
 
-  protected forgetRegistration(coordinates: RegistrationCoordinates): void {
+  protected forgetRegistration(coordinates: Registration.Coordinates): void {
     const known = this.knownRegistrations.filter(present =>
       !(present.projectId === coordinates.projectId && present.registrationId === coordinates.registrationId)
     );
@@ -50,7 +60,7 @@ export class RegistrationService {
     this.init();
   }
 
-  protected verifyKnownRegistrations(apiPrefix: string): Observable<RegistrationInfo[]> {
+  protected verifyKnownRegistrations(apiPrefix: string): Observable<Registration.Info[]> {
     return combineLatest(
       this.knownRegistrations.map(({projectId, registrationId}) => {
         return this.findRegistration(apiPrefix, projectId, registrationId).pipe(materialize());
@@ -71,7 +81,7 @@ export class RegistrationService {
     this.init();
   }
 
-  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<RegistrationInfo[]> {
+  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<Registration.Info[]> {
     if (this.knownRegistrations.length === 0) {
       console.warn('[RegistrationService] No known registrations... returning null.')
       return of([]);
@@ -87,7 +97,7 @@ export class RegistrationService {
     }
 
     return combineLatest(queryList).pipe(
-      map(results => results.filter(registration => !!registration) as RegistrationInfo[]),
+      map(results => results.filter(registration => !!registration) as Registration.Info[]),
     );
   }
 
@@ -95,11 +105,11 @@ export class RegistrationService {
     apiPrefix: string,
     projectId: string,
     registrationId: string
-  ): Observable<RegistrationInfo> {
+  ): Observable<Registration.Info> {
     console.warn(`[RegistrationService] Loading registration ${registrationId} for project ${projectId}`);
 
     return this.httpClient
-      .get<RegistrationInfo>(`${apiPrefix}/meta/projects/${projectId}/registrations/${registrationId}`)
+      .get<Registration.Info>(`${apiPrefix}/meta/projects/${projectId}/registrations/${registrationId}`)
       .pipe(
         tap(() => this.rememberRegistration({projectId, registrationId})),
         catchError((err) => {
@@ -119,9 +129,9 @@ export class RegistrationService {
     apiPrefix: string,
     projectId: string,
     event: RegistrationCreateEvent,
-  ): Observable<RegistrationInfo> {
+  ): Observable<Registration.Info> {
     return this.httpClient
-      .post<RegistrationInfo>(`${apiPrefix}/meta/projects/${projectId}/registrations`, event)
+      .post<Registration.Info>(`${apiPrefix}/meta/projects/${projectId}/registrations`, event)
       .pipe(
         tap(({projectId, id: registrationId}) => this.rememberRegistration({projectId, registrationId}))
       );

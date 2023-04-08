@@ -3,13 +3,13 @@ import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {BehaviorSubject, filter, map, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {ProjectInfoComponent} from "../../../../../shared/src/lib/projects/project-info.component";
-import {ProjectInfo, ProjectService} from "../../../../../shared/src/lib/projects/project.service";
+import {Project, ProjectService} from "../../../../../shared/src/lib/projects/project.service";
 import {environment} from "../../../environments/environment";
 import {
   RegistrationCreateEvent,
   RegistrationFormComponent
 } from "../../../../../shared/src/lib/registrations/registration-form.component";
-import {RegistrationInfo, RegistrationService} from "../../../../../shared/src/lib/registrations/registration.service";
+import {Registration, RegistrationService} from "../../../../../shared/src/lib/registrations/registration.service";
 import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrations/registration-info.component";
 
 @Component({
@@ -27,10 +27,10 @@ import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrat
 export class ProjectComponent implements OnInit, OnDestroy {
   protected readonly _unsubscribe$ = new Subject<void>();
 
-  protected readonly _projectCtrl$ = new BehaviorSubject<ProjectInfo | null>(null);
+  protected readonly _projectCtrl$ = new BehaviorSubject<Project.Info | null>(null);
   protected readonly project = this._projectCtrl$.asObservable();
 
-  protected readonly _registrationsCtrl$ = new BehaviorSubject<RegistrationInfo[]>([]);
+  protected readonly _registrationsCtrl$ = new BehaviorSubject<Registration.Info[]>([]);
   protected readonly registrations = this._registrationsCtrl$.asObservable();
   protected readonly _registrationsLoadedCtrl$ = new BehaviorSubject<boolean>(false);
   protected readonly registrationsLoaded = this._registrationsLoadedCtrl$.asObservable();

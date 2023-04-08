@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RegistrationInfo} from "./registration.service";
+import {Registration} from "./registration.service";
 
 @Component({
   selector: 'ce-registration-info',
@@ -12,6 +12,6 @@ import {RegistrationInfo} from "./registration.service";
 })
 export class RegistrationInfoComponent {
   @Input()
-  info!: RegistrationInfo;
+  info!: Registration.Info;
 
 }

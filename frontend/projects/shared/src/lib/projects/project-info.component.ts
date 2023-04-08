@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ProjectInfo} from "./project.service";
+import {Project} from "./project.service";
 
 @Component({
   selector: 'ce-project-info',
@@ -13,7 +13,7 @@ import {ProjectInfo} from "./project.service";
 export class ProjectInfoComponent {
 
   @Input()
-  info!: ProjectInfo;
+  info!: Project.Info;
 
 
 }
