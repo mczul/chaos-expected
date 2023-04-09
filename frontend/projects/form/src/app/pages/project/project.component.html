@@ -7,7 +7,6 @@
     <ce-project-info [info]="projectInfo"/>
 
     <h3>Registrations loaded: {{ registrationsLoaded | async }}</h3>
-    <h3>Project: {{ project | async | json }}</h3>
 
     <ng-container *ngIf="registrationsLoaded | async else loading">
       <ng-container *ngIf="registrations | async as knownRegistrations">

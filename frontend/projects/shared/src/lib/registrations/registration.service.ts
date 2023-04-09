@@ -25,8 +25,6 @@ export namespace Registration {
 
 }
 
-
-
 export type LoadingStatus = 'ACTIVE' | 'SUCCESS' | 'FAILURE';
 
 @Injectable({
@@ -52,9 +50,9 @@ export class RegistrationService {
     this.init();
   }
 
-  protected forgetRegistration(coordinates: Registration.Coordinates): void {
+  protected forgetRegistration(obsolete: Registration.Coordinates): void {
     const known = this.knownRegistrations.filter(present =>
-      !(present.projectId === coordinates.projectId && present.registrationId === coordinates.registrationId)
+      !(present.projectId === obsolete.projectId && present.registrationId === obsolete.registrationId)
     );
     localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, JSON.stringify(known));
     this.init();
@@ -74,7 +72,6 @@ export class RegistrationService {
 
   protected init(): void {
     this.knownRegistrations = this.loadRegistrations();
-
   }
 
   constructor(private httpClient: HttpClient) {
