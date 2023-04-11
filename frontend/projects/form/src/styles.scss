@@ -31,6 +31,7 @@ ce-project-list {
         align-items: center;
         gap: 1em;
         margin: .5em 0;
+        filter: drop-shadow(1px 1px 1px grey);
       }
 
       &__tags {
@@ -100,6 +101,7 @@ ce-registration-list {
         align-items: center;
         gap: 1em;
         margin: .5em 0;
+        filter: drop-shadow(1px 1px 1px grey);
       }
 
       &__tags {
@@ -116,6 +118,12 @@ ce-registration-list {
         }
       }
     }
+  }
+
+  hr {
+    width: 75%;
+    border-color: lightgray;
+    margin-inline: auto;
   }
 }
 
