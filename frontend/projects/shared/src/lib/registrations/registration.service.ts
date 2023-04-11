@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {catchError, combineLatest, map, materialize, Observable, of, tap} from "rxjs";
+import {catchError, combineLatest, map, materialize, Observable, of, take, tap} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RegistrationCreateEvent} from "./registration-form.component";
 
@@ -87,7 +87,11 @@ export class RegistrationService {
     const queryList = this._known
       .filter(coordinates => !projectId || coordinates.projectId === projectId)
       .map(coordinates => this.findInfo(apiPrefix, coordinates.projectId, coordinates.registrationId)
-        .pipe(materialize())
+        .pipe(
+          materialize(),
+          // necessary to prevent emissions on complete
+          take(1)
+        )
       );
 
     if (queryList.length === 0) {

@@ -20,7 +20,6 @@ import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrat
     ProjectInfoComponent,
     RegistrationFormComponent, RegistrationInfoComponent
   ],
-  providers: [ProjectService, RegistrationService],
   templateUrl: './project.component.html',
   styles: []
 })

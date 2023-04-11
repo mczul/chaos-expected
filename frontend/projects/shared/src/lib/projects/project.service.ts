@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {catchError, combineLatest, map, materialize, Observable, of, tap} from "rxjs";
+import {catchError, combineLatest, map, materialize, Observable, of, take, tap} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 const LOCAL_STORAGE_KEY_PROJECTS = 'ce-projects';
@@ -59,7 +59,11 @@ export class ProjectService {
     }
     console.warn(`[ProjectService] Found known projects.`, this._known);
 
-    return combineLatest(this._known.map(knownId => this.findInfo(apiPrefix, knownId).pipe(materialize()))).pipe(
+    return combineLatest(this._known.map(knownId => this.findInfo(apiPrefix, knownId).pipe(
+      materialize(),
+      // necessary to prevent emissions on complete
+      take(1)
+    ))).pipe(
       map(result => result.filter(response => response.kind === 'N')),
       map(result => result.map(response => response.value!))
     );
