@@ -6,8 +6,6 @@
   <ng-container *ngIf="project | async as projectInfo else loading">
     <ce-project-info [info]="projectInfo"/>
 
-    <h3>Registrations loaded: {{ registrationsLoaded | async }}</h3>
-
     <ng-container *ngIf="registrationsLoaded | async else loading">
       <ng-container *ngIf="registrations | async as knownRegistrations">
         <ce-registration-form *ngIf="knownRegistrations.length === 0"

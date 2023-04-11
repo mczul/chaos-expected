@@ -25,43 +25,42 @@ export namespace Registration {
 
 }
 
-export type LoadingStatus = 'ACTIVE' | 'SUCCESS' | 'FAILURE';
-
 @Injectable({
-  providedIn: null
+  providedIn: 'root'
 })
 export class RegistrationService {
-  protected knownRegistrations: ReadonlyArray<Registration.Coordinates> = [];
+  protected _known: ReadonlyArray<Registration.Coordinates> = [];
 
-  protected loadRegistrations(): Registration.Coordinates[] {
-    const localStorageContent = localStorage.getItem(LOCAL_STORAGE_KEY_REGISTRATIONS) ?? JSON.stringify([]);
+  protected load(): Registration.Coordinates[] {
+    const localStorageContent = localStorage.getItem(LOCAL_STORAGE_KEY_REGISTRATIONS) ?? '[]';
     return JSON.parse(localStorageContent) as Registration.Coordinates[];
   }
 
-  protected rememberRegistration(newCoordinates: Registration.Coordinates): void {
-    const known = this.knownRegistrations.slice();
-    if (known.some(present =>
+  protected remember(newCoordinates: Registration.Coordinates): void {
+    if (this._known.some(present =>
       present.projectId === newCoordinates.projectId &&
       present.registrationId === newCoordinates.registrationId)) {
       return;
     }
-    known.push(newCoordinates);
-    localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, JSON.stringify(known));
+    const updated = this._known.slice().concat(newCoordinates);
+    const serialized = JSON.stringify(updated);
+    localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, serialized);
     this.init();
   }
 
-  protected forgetRegistration(obsolete: Registration.Coordinates): void {
-    const known = this.knownRegistrations.filter(present =>
+  protected forget(obsolete: Registration.Coordinates): void {
+    const filtered = this._known.filter(present =>
       !(present.projectId === obsolete.projectId && present.registrationId === obsolete.registrationId)
     );
-    localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, JSON.stringify(known));
+    const serialized = JSON.stringify(filtered);
+    localStorage.setItem(LOCAL_STORAGE_KEY_REGISTRATIONS, serialized);
     this.init();
   }
 
-  protected verifyKnownRegistrations(apiPrefix: string): Observable<Registration.Info[]> {
+  protected verifyKnown(apiPrefix: string): Observable<Registration.Info[]> {
     return combineLatest(
-      this.knownRegistrations.map(({projectId, registrationId}) => {
-        return this.findRegistration(apiPrefix, projectId, registrationId).pipe(materialize());
+      this._known.map(({projectId, registrationId}) => {
+        return this.findInfo(apiPrefix, projectId, registrationId).pipe(materialize());
       })
     ).pipe(
       map(results => results
@@ -71,34 +70,37 @@ export class RegistrationService {
   }
 
   protected init(): void {
-    this.knownRegistrations = this.loadRegistrations();
+    this._known = this.load();
   }
 
   constructor(private httpClient: HttpClient) {
     this.init();
   }
 
-  loadKnownRegistrations(apiPrefix: string, projectId?: string): Observable<Registration.Info[]> {
-    if (this.knownRegistrations.length === 0) {
-      console.warn('[RegistrationService] No known registrations... returning null.')
+  loadKnown(apiPrefix: string, projectId?: string): Observable<Registration.Info[]> {
+    if (this._known.length === 0) {
+      console.warn('[RegistrationService] No known registrations.')
       return of([]);
     }
-    console.warn(`[RegistrationService] Found known registrations.`, this.knownRegistrations);
+    console.warn(`[RegistrationService] Found known registrations.`, this._known);
 
-    const queryList = this.knownRegistrations
+    const queryList = this._known
       .filter(coordinates => !projectId || coordinates.projectId === projectId)
-      .map(coordinates => this.findRegistration(apiPrefix, coordinates.projectId, coordinates.registrationId));
+      .map(coordinates => this.findInfo(apiPrefix, coordinates.projectId, coordinates.registrationId)
+        .pipe(materialize())
+      );
 
     if (queryList.length === 0) {
       return of([]);
     }
 
     return combineLatest(queryList).pipe(
-      map(results => results.filter(registration => !!registration) as Registration.Info[]),
+      map(result => result.filter(response => response.kind === 'N')),
+      map(result => result.map(response => response.value!))
     );
   }
 
-  findRegistration(
+  findInfo(
     apiPrefix: string,
     projectId: string,
     registrationId: string
@@ -108,13 +110,13 @@ export class RegistrationService {
     return this.httpClient
       .get<Registration.Info>(`${apiPrefix}/meta/projects/${projectId}/registrations/${registrationId}`)
       .pipe(
-        tap(() => this.rememberRegistration({projectId, registrationId})),
+        tap(() => this.remember({projectId, registrationId})),
         catchError((err) => {
-          console.warn(`[RegistrationService] Failed to find known registration.`, err);
+          console.warn(`[RegistrationService] Failed to find registration.`, err);
           if (err instanceof HttpErrorResponse) {
             switch (err.status) {
               case HttpStatusCode.Gone:
-                this.forgetRegistration({projectId, registrationId});
+                this.forget({projectId, registrationId});
             }
           }
           throw err;
@@ -122,7 +124,7 @@ export class RegistrationService {
       );
   }
 
-  createRegistration(
+  create(
     apiPrefix: string,
     projectId: string,
     event: RegistrationCreateEvent,
@@ -130,7 +132,7 @@ export class RegistrationService {
     return this.httpClient
       .post<Registration.Info>(`${apiPrefix}/meta/projects/${projectId}/registrations`, event)
       .pipe(
-        tap(({projectId, id: registrationId}) => this.rememberRegistration({projectId, registrationId}))
+        tap(({projectId, id: registrationId}) => this.remember({projectId, registrationId}))
       );
   }
 

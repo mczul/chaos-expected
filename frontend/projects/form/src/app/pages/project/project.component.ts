@@ -53,7 +53,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         }
         return projectId;
       }),
-      switchMap(projectId => this.projectService.findProjectInfo(environment.apiUrl, projectId)),
+      switchMap(projectId => this.projectService.findInfo(environment.apiUrl, projectId)),
     ).subscribe({
       next: project => this._projectCtrl$.next(project),
       error: err => {
@@ -66,7 +66,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       takeUntil(this._unsubscribe$),
       filter(project => !!project),
       tap(project => console.warn(`[ProjectComponent] Project changed.`, project)),
-      switchMap(project => this.registrationService.loadKnownRegistrations(
+      switchMap(project => this.registrationService.loadKnown(
           environment.apiUrl,
           project!.id
         )
@@ -96,7 +96,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       throw new Error(`Cannot handle new registration due to missing project context.`);
     }
 
-    this.registrationService.createRegistration(
+    this.registrationService.create(
       environment.apiUrl,
       event.projectId,
       event

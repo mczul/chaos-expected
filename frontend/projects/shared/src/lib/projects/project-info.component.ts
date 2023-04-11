@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Project} from "./project.service";
 import {formatDistance, formatDistanceToNow, parseISO} from 'date-fns';
+import { de } from 'date-fns/locale';
 
 @Component({
   selector: 'ce-project-info',
@@ -17,15 +18,15 @@ export class ProjectInfoComponent {
   info!: Project.Info;
 
   get created(): string {
-    return formatDistanceToNow(parseISO(this.info.createdAt));
+    return formatDistanceToNow(parseISO(this.info.createdAt), {locale: de});
   }
 
   get duration(): string {
-    return formatDistance(parseISO(this.info.startsAt), parseISO(this.info.endsAt));
+    return formatDistance(parseISO(this.info.startsAt), parseISO(this.info.endsAt), {locale: de});
   }
 
   get startsIn(): string {
-    return formatDistanceToNow(parseISO(this.info.startsAt));
+    return formatDistanceToNow(parseISO(this.info.startsAt), {locale: de});
   }
 
 }

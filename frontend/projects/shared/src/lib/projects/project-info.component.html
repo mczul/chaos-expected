@@ -1,9 +1,9 @@
 <article>
-  <h2>🚀 Project {{ info.id }}</h2>
+  <h2>🚀 Project {{ info.id.substring(0, 8) }}</h2>
   <h3>{{ info.name }}</h3>
   <h4>⏳ {{ duration }}</h4>
   <h4>🌱 {{ created }}</h4>
-  <h4>▶️ {{ info.startsAt | date:'full' }} ({{ startsIn }})</h4>
-  <h4>⏹️ {{ info.endsAt | date:'full' }}</h4>
+  <h4>▶️ {{ info.startsAt | date:'short' }} ({{ startsIn }})</h4>
+  <h4>⏹️ {{ info.endsAt | date:'short' }}</h4>
   <p>{{ info.description }}</p>
 </article>

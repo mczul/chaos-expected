@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {environment} from "../../../environments/environment";
+import {Subject} from "rxjs";
+import {ProjectService} from "../../../../../shared/src/lib/projects/project.service";
 
 @Component({
   selector: 'cef-start',
@@ -9,8 +11,19 @@ import {environment} from "../../../environments/environment";
   templateUrl: './start.component.html',
   styles: []
 })
-export class StartComponent {
-
+export class StartComponent implements OnInit, OnDestroy {
+  protected _unsubscribe$ = new Subject<void>();
   protected apiUrl = environment.apiUrl;
+
+  constructor(protected projectService: ProjectService) {
+  }
+
+  ngOnInit(): void {
+    // load known projects
+    this.projectService
+  }
+
+  ngOnDestroy(): void {
+  }
 
 }
