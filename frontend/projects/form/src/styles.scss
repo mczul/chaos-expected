@@ -1,11 +1,11 @@
 *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 /* ### Site ######################################################################################################### */
@@ -19,6 +19,42 @@ cef-root {
 }
 
 /* ### Project ###################################################################################################### */
+
+ce-project-list {
+  .ce-project-list {
+    &__entry {
+      margin: 1em 0;
+
+      &__title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        margin: .5em 0;
+      }
+
+      &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: .5em;
+
+        margin-left: 1em;
+
+        & > span {
+          min-width: max-content;
+          margin-inline: 1em;
+        }
+      }
+    }
+  }
+
+  hr {
+    width: 75%;
+    border-color: lightgray;
+    margin-inline: auto;
+  }
+}
 
 cef-project {
   display: block;
@@ -52,6 +88,36 @@ ce-project-info {
 }
 
 /* ### Registration ################################################################################################# */
+
+ce-registration-list {
+  .ce-registration-list {
+    &__entry {
+      margin: 1em 0;
+
+      &__title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        margin: .5em 0;
+      }
+
+      &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: .5em;
+
+        margin-left: 1em;
+
+        & > span {
+          min-width: max-content;
+          margin-inline: 1em;
+        }
+      }
+    }
+  }
+}
 
 ce-registration-info {
   display: block;

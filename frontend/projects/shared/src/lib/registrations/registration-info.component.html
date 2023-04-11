@@ -1,7 +1,8 @@
 <article class="ce-registration">
   <h3>🎫 Registration info: {{ info.id.substring(0, 8) }}</h3>
+
   <ul>
-    <li>{{ info.emailAddress }}</li>
-    <li>{{ info.createdAt | date:'short' }}</li>
+    <li>✉️ {{ info.emailAddress }}</li>
+    <li>🌱 {{ info.createdAt | date:'short' }}</li>
   </ul>
 </article>

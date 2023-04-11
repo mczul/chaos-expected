@@ -12,8 +12,13 @@
                               [projectId]="projectInfo.id"
                               (complete)="handleNewRegistration($event)"/>
 
+<!--
         <ce-registration-info *ngFor="let registrationInfo of knownRegistrations"
                               [info]="registrationInfo"/>
+-->
+
+        <h2>My registrations</h2>
+        <ce-registration-list [entries]="knownRegistrations" (selection)="handleRegistrationSelection($event)" />
       </ng-container>
     </ng-container>
   </ng-container>

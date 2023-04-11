@@ -20,7 +20,7 @@ export namespace Registration {
     id: string;
     projectId: string;
     emailAddress: string;
-    createdAt: Date;
+    createdAt: string;
   }
 
 }

@@ -11,6 +11,7 @@ import {
 } from "../../../../../shared/src/lib/registrations/registration-form.component";
 import {Registration, RegistrationService} from "../../../../../shared/src/lib/registrations/registration.service";
 import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrations/registration-info.component";
+import {RegistrationListComponent} from "../../../../../shared/src/lib/registrations/registration-list.component";
 
 @Component({
   selector: 'cef-project',
@@ -18,7 +19,7 @@ import {RegistrationInfoComponent} from "../../../../../shared/src/lib/registrat
   imports: [
     CommonModule, RouterModule,
     ProjectInfoComponent,
-    RegistrationFormComponent, RegistrationInfoComponent
+    RegistrationFormComponent, RegistrationListComponent
   ],
   templateUrl: './project.component.html',
   styles: []
@@ -111,5 +112,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
         // TODO: UX; display useful information to the user
       },
     });
+  }
+
+  protected handleRegistrationSelection(event: Registration.Coordinates) {
+    console.warn(`[ProjectComponent] handleRegistrationSelection() called`, event);
   }
 }

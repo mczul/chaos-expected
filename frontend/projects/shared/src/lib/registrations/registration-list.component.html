@@ -1,0 +1,14 @@
+<ng-container *ngFor="let entry of entries; last as isLast">
+  <article *ngFor="let entry of entries"
+           class="ce-registration-list__entry">
+    <h3 class="ce-registration-list__entry__title">
+      <span>🎫 {{ entry.emailAddress }}</span>
+      <small><a style="text-decoration: underline; cursor: pointer;"
+                (click)="handleSelection(entry)">#{{ entry.id | shortenUuid }}</a></small>
+    </h3>
+    <section class="ce-registration-list__entry__tags">
+      <span>🌱 {{ entry.createdAt | distanceToNow }}</span>
+    </section>
+  </article>
+  <hr *ngIf="!isLast">
+</ng-container>
