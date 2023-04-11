@@ -1,13 +1,11 @@
-<ng-container *ngFor="let entry of entries; last as isLast">
-  <article class="ce-registration-list__entry">
+<ng-container *ngFor="let entry of entries">
+  <article class="ce-registration-list__entry card">
     <h3 class="ce-registration-list__entry__title">
       <span>🎫 {{ entry.emailAddress }}</span>
-      <small><a style="text-decoration: underline; cursor: pointer;"
-                (click)="handleSelection(entry)">#{{ entry.id | shortenUuid }}</a></small>
+      <small><a (click)="handleSelection(entry)">#{{ entry.id | shortenUuid }}</a></small>
     </h3>
     <section class="ce-registration-list__entry__tags">
       <span>🌱 {{ entry.createdAt | distanceToNow }}</span>
     </section>
   </article>
-  <hr *ngIf="!isLast">
 </ng-container>

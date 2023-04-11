@@ -8,6 +8,32 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
+h1 {
+  filter: drop-shadow(.1rem .1rem .1rem grey);
+}
+h2 {
+  filter: drop-shadow(.1rem .1rem .1rem grey);
+}
+h3 {
+  filter: drop-shadow(.1rem .1rem .1rem grey);
+}
+
+.card {
+  display: block;
+  margin: 1em;
+  padding: 1.5em;
+  border: solid 1px lightgray;
+  border-radius: .5em;
+  box-shadow: 0 0 16px 0 lightgray;
+  transition: box-shadow 300ms ease-in-out,
+              transform 300ms linear;
+
+  &:hover, &:active {
+    transform: scale3d(1.01, 1.01, 1.01);
+    box-shadow: 0 0 16px 4px lighten(lightgrey, 2);
+  }
+}
+
 /* ### Site ######################################################################################################### */
 
 cef-root {
@@ -23,15 +49,22 @@ cef-root {
 ce-project-list {
   .ce-project-list {
     &__entry {
-      margin: 1em 0;
-
+      max-width: 800px;
       &__title {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 1em;
         margin: .5em 0;
-        filter: drop-shadow(1px 1px 1px grey);
+
+        & > * {
+          white-space: nowrap;
+        }
+
+        a {
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
 
       &__tags {
@@ -93,15 +126,22 @@ ce-project-info {
 ce-registration-list {
   .ce-registration-list {
     &__entry {
-      margin: 1em 0;
-
+      max-width: 800px;
       &__title {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 1em;
         margin: .5em 0;
-        filter: drop-shadow(1px 1px 1px grey);
+
+        & > * {
+          white-space: nowrap;
+        }
+
+        a {
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
 
       &__tags {
