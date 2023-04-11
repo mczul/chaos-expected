@@ -1,3 +1,7 @@
 <h2>Kein Projekt ausgewählt.</h2>
 
 <pre>apiUrl={{ apiUrl }}</pre>
+
+<ng-container  *ngFor="let project of projects">
+  <ce-project-info [info]="project" />
+</ng-container>
