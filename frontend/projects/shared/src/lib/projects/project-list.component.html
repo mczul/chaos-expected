@@ -1,11 +1,12 @@
 <ng-container *ngFor="let entry of entries">
-  <article class="ce-project-list__entry card">
-    <h3 class="ce-project-list__entry__title">
-      <span>🚀 {{ entry.name }}</span>
-      <small><a (click)="handleSelection(entry)">#{{ entry.id | shortenUuid }}</a></small>
+  <article class="card" (click)="handleSelection(entry)">
+    <h3 class="card__title">
+      <span class="card__icon">🚀</span>
+      <span class="card__headline">{{ entry.name }}</span>
     </h3>
 
-    <section class="ce-project-list__entry__tags">
+    <section class="card__tags">
+      <span>🔑 {{ entry.id | shortenUuid }}</span>
       <span>▶️ {{ entry.startsAt | distanceToNow }}</span>
       <span>⏳ {{ entry | duration }}</span>
       <span>🌱 {{ entry.createdAt | distanceToNow }}</span>

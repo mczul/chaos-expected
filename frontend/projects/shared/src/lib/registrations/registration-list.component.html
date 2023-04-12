@@ -1,10 +1,11 @@
 <ng-container *ngFor="let entry of entries">
-  <article class="ce-registration-list__entry card">
-    <h3 class="ce-registration-list__entry__title">
-      <span>🎫 {{ entry.emailAddress }}</span>
-      <small><a (click)="handleSelection(entry)">#{{ entry.id | shortenUuid }}</a></small>
+  <article class="card" (click)="handleSelection(entry)">
+    <h3 class="card__title">
+      <span class="card__icon">🎫</span>
+      <span class="card__headline">{{ entry.emailAddress }}</span>
     </h3>
-    <section class="ce-registration-list__entry__tags">
+    <section class="card__tags">
+      <span>🔑 {{ entry.id | shortenUuid }}</span>
       <span>🌱 {{ entry.createdAt | distanceToNow }}</span>
     </section>
   </article>
