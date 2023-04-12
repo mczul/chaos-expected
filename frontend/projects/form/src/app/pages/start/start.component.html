@@ -4,8 +4,12 @@
   </ng-template>
 
   <ng-container *ngIf="projectListLoaded | async else loading">
-    <ce-project-list *ngIf="projectList | async as projects"
-                     [entries]="projects"
-                     (selection)="handleProjectSelection($event)"/>
+    <ng-container  *ngIf="projectList | async as projects">
+      <ng-template #noProjects>
+        <h3>No known projects.</h3>
+      </ng-template>
+      <ce-project-list *ngIf="projects.length > 0 else noProjects" [entries]="projects"
+                       (selection)="handleProjectSelection($event)"/>
+    </ng-container>
   </ng-container>
 </section>

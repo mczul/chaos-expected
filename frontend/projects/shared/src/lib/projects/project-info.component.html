@@ -1,9 +1,20 @@
-<article>
-  <h2>🚀 Project {{ info.id | shortenUuid }}</h2>
-  <h3>{{ info.name }}</h3>
-  <h4>⏳ {{ info | duration }}</h4>
-  <h4>🌱 {{ info.createdAt | distanceToNow }}</h4>
-  <h4>▶️ {{ info.startsAt | date:'short' }} ({{ info.startsAt | distanceToNow }})</h4>
-  <h4>⏹️ {{ info.endsAt | date:'short' }}</h4>
-  <p>{{ info.description }}</p>
+<article class="card">
+  <h3 class="card__title">
+    <span class="card__icon">🚀</span>
+    <span class="card__headline">{{ info.name }}</span>
+  </h3>
+
+  <section class="card__tags">
+    <span>🔑 {{ info.id | shortenUuid }}</span>
+    <span>▶️ {{ info.startsAt | date:'short' }} ({{ info.startsAt | distanceToNow }})</span>
+    <span>⏹️ {{ info.endsAt | date:'short' }}</span>
+    <span>⏳ {{ info | duration }}</span>
+    <span>🌱 {{ info.createdAt | date:'short' }} ({{ info.createdAt | distanceToNow }})</span>
+  </section>
+
+  <hr class="card__separator">
+
+  <section class="card__content">
+    <ng-content></ng-content>
+  </section>
 </article>
