@@ -1,6 +1,6 @@
 <article>
   <ng-template #loading>
-    <h3>Lade Daten...</h3>
+    <h3>Loading data...</h3>
   </ng-template>
 
   <ng-container *ngIf="project | async as projectInfo else loading">
@@ -12,12 +12,6 @@
                               [projectId]="projectInfo.id"
                               (complete)="handleNewRegistration($event)"/>
 
-<!--
-        <ce-registration-info *ngFor="let registrationInfo of knownRegistrations"
-                              [info]="registrationInfo"/>
--->
-
-        <h2>My registrations</h2>
         <ce-registration-list [entries]="knownRegistrations" (selection)="handleRegistrationSelection($event)" />
       </ng-container>
     </ng-container>

@@ -1,4 +1,11 @@
 <section>
-  <h2>My projects</h2>
-  <ce-project-list [entries]="projects" (selection)="handleProjectSelection($event)"/>
+  <ng-template #loading>
+    <h3>Loading known projects...</h3>
+  </ng-template>
+
+  <ng-container *ngIf="projectListLoaded | async else loading">
+    <ce-project-list *ngIf="projectList | async as projects"
+                     [entries]="projects"
+                     (selection)="handleProjectSelection($event)"/>
+  </ng-container>
 </section>
