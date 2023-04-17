@@ -22,9 +22,6 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-        cache-dependency-path: package-lock.json
-        cache: 'npm'
-        node-version: ${{ matrix.node-version }}
 
     steps:
     - uses: actions/checkout@v3
