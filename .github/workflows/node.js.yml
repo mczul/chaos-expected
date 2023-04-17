@@ -29,4 +29,5 @@ jobs:
       uses: actions/setup-node@v3
     - run: npm ci
     - run: npm run build form
-    - run: npm run cypress:run
+    - run: npm run cypress:run:ct
+    - run: npm run cypress:run:e2e

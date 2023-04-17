@@ -9,7 +9,8 @@
     "ct": "ng ct",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run:e2e": "cypress run --e2e",
+    "cypress:run:ct": "cypress run --component"
   },
   "private": true,
   "dependencies": {
