@@ -1,9 +1,9 @@
 package de.mczul.chaosexpected.common;
 
-import de.mczul.chaosexpected.accounts.registration.IdToRegistration;
-import de.mczul.chaosexpected.accounts.registration.Registration;
-import de.mczul.chaosexpected.projects.IdToProject;
-import de.mczul.chaosexpected.projects.Project;
+import de.mczul.chaosexpected.meta.projects.registration.IdToRegistration;
+import de.mczul.chaosexpected.meta.projects.registration.Registration;
+import de.mczul.chaosexpected.meta.projects.IdToProject;
+import de.mczul.chaosexpected.meta.projects.Project;
 import jakarta.persistence.EntityManager;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

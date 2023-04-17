@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.projects.events;
+package de.mczul.chaosexpected.meta.projects.events;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;

@@ -1,0 +1,16 @@
+### Get health
+GET http://localhost:8080/api/internal/health
+Authorization: Basic user password
+Accept: application/json
+
+
+### Get info
+GET http://localhost:8080/api/internal/info
+Authorization: Basic user password
+Accept: application/json
+
+
+### Get beans
+GET http://localhost:8080/api/internal/beans
+Authorization: Basic user password
+Accept: application/json

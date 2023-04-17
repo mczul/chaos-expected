@@ -16,11 +16,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
+    - uses: cypress-io/github-action@v5
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -28,5 +29,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm --prefix frontend ci
-    - run: npm --prefix frontend run build form
-    - run: npm --prefix frontend test form
+    - run: npm --prefix frontend build form
+    - run: npm --prefix frontend run cypress:run

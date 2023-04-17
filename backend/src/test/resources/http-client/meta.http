@@ -16,8 +16,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Yet another fancy project",
-  "description": "This is my second test project",
+  "name": "Yet another fancy project v1",
+  "description": "This is my test project",
   "startsAt": "2023-06-01T12:00:00Z",
   "endsAt": "2023-06-03T12:00:00Z"
 }

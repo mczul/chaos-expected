@@ -1,14 +1,14 @@
 <form [formGroup]="state" (ngSubmit)="handleSubmit()">
   <fieldset>
     <legend>Kontaktdaten</legend>
-    <section>
+    <section class="input-row">
       <label for="accountMailAddress">E-Mail-Adresse</label>
       <input type="email"
              id="accountMailAddress"
              [formControl]="state.controls.emailAddress">
     </section>
   </fieldset>
-  <section>
+  <section class="button-row">
     <button type="submit"
             [disabled]="state.invalid">Registrieren
     </button>

@@ -1,6 +1,6 @@
-package de.mczul.chaosexpected.projects;
+package de.mczul.chaosexpected.meta.projects;
 
-import de.mczul.chaosexpected.projects.events.ProjectCreateEvent;
+import de.mczul.chaosexpected.meta.projects.events.ProjectCreateEvent;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

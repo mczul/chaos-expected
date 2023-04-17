@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.projects;
+package de.mczul.chaosexpected.meta.projects;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

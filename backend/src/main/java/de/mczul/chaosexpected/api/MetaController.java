@@ -1,13 +1,13 @@
 package de.mczul.chaosexpected.api;
 
-import de.mczul.chaosexpected.accounts.registration.RegistrationInfo;
-import de.mczul.chaosexpected.accounts.registration.RegistrationMapper;
-import de.mczul.chaosexpected.accounts.registration.RegistrationRepository;
-import de.mczul.chaosexpected.accounts.registration.events.RegistrationCreateEvent;
-import de.mczul.chaosexpected.projects.ProjectInfo;
-import de.mczul.chaosexpected.projects.ProjectMapper;
-import de.mczul.chaosexpected.projects.ProjectRepository;
-import de.mczul.chaosexpected.projects.events.ProjectCreateEvent;
+import de.mczul.chaosexpected.meta.projects.ProjectInfo;
+import de.mczul.chaosexpected.meta.projects.ProjectMapper;
+import de.mczul.chaosexpected.meta.projects.ProjectRepository;
+import de.mczul.chaosexpected.meta.projects.events.ProjectCreateEvent;
+import de.mczul.chaosexpected.meta.projects.registration.RegistrationInfo;
+import de.mczul.chaosexpected.meta.projects.registration.RegistrationMapper;
+import de.mczul.chaosexpected.meta.projects.registration.RegistrationRepository;
+import de.mczul.chaosexpected.meta.projects.registration.events.RegistrationCreateEvent;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

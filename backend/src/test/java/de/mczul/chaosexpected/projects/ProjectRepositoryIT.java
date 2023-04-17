@@ -1,5 +1,6 @@
 package de.mczul.chaosexpected.projects;
 
+import de.mczul.chaosexpected.meta.projects.ProjectRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Repositories: Project")
 @DisplayNameGeneration(ReplaceUnderscores.class)

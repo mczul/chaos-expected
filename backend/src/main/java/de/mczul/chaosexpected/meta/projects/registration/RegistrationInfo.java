@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.accounts.registration;
+package de.mczul.chaosexpected.meta.projects.registration;
 
 import java.time.Instant;
 import java.util.UUID;

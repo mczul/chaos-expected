@@ -5,7 +5,9 @@
 }
 
 body {
-  font-family: 'Courier New', Courier, monospace;
+  --font: 'Courier New', Courier, monospace;
+  --border-color: lightgray;
+  font-family: var(--font);
 }
 
 #page {
@@ -48,12 +50,105 @@ body {
 h1 {
   filter: drop-shadow(.1rem .1rem .1rem grey);
 }
+
 h2 {
   filter: drop-shadow(.1rem .1rem .1rem grey);
 }
+
 h3, h4 {
   filter: drop-shadow(.1rem .1rem .1rem grey);
 }
+
+/* ### Forms ######################################################################################################## */
+
+form {
+  fieldset {
+    legend {
+      padding: 0 .5em;
+      font-size: .9rem;
+      text-transform: uppercase;
+    }
+
+    padding: 1em;
+    border: solid 1px var(--border-color);
+    border-radius: .25em;
+  }
+
+  .input-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: .5em;
+
+    & > label {
+      flex-basis: 20ch;
+      min-width: max-content;
+      font-weight: bold;
+    }
+
+    & > input {
+      flex-grow: 1;
+      font-family: var(--font);
+      font-size: 1rem;
+
+      margin-left: .5em;
+      padding: .25em;
+
+      border: solid 1px var(--border-color);
+      border-radius: .25em;
+    }
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1em;
+    padding: .5em 0;
+  }
+
+}
+
+/* ### Buttons ###################################################################################################### */
+
+button {
+  font-family: var(--font);
+  font-weight: bold;
+  text-transform: uppercase;
+
+  border-radius: .33em;
+  padding: .5em 1em;
+  border: solid .1em white;
+
+  transform: scale3d(1.025, 1.025, 1.025);
+
+  background-color: steelblue;
+  color: white;
+
+  box-shadow: 0 0 4px 2px var(--border-color);
+
+  transition: transform 150ms ease-in-out,
+  box-shadow 150ms ease-in-out,
+  background-color 150ms ease-in-out,
+  color 150ms linear,
+  filter 300ms linear;
+
+
+  &:active:not(:disabled) {
+    transform: scale3d(1, 1, 1) !important;
+    background-color: darken(steelblue, 5);
+    box-shadow: 0 0 2px 1px darkgray;
+    color: white;
+  }
+
+  &:disabled {
+    filter: grayscale(1);
+  }
+
+}
+
+/* ### Cards ######################################################################################################## */
 
 .card {
   display: block;
@@ -61,9 +156,9 @@ h3, h4 {
   margin: 1em;
   padding: 1.5em;
 
-  border: solid 1px lightgray;
+  border: solid 1px var(--border-color);
   border-radius: .5em;
-  box-shadow: 0 0 16px 0 lightgray;
+  box-shadow: 0 0 16px 0 var(--border-color);
 
   &--clickable {
     cursor: pointer;
@@ -79,7 +174,7 @@ h3, h4 {
     &:hover,
     &:active {
       transform: scale3d(1.01, 1.01, 1.01);
-      box-shadow: 0 0 16px 4px lighten(lightgrey, 2);
+      box-shadow: 0 0 16px 4px var(--border-color);
     }
   }
 
@@ -115,14 +210,6 @@ h3, h4 {
 
   &__content {
     margin-top: 2em;
-  }
-
-  &__separator {
-    width: 80%;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-inline: auto;
-    border: solid 1px lightgray;
   }
 
   &__headline,

@@ -1,6 +1,6 @@
-package de.mczul.chaosexpected.accounts.registration;
+package de.mczul.chaosexpected.meta.projects.registration;
 
-import de.mczul.chaosexpected.projects.Project;
+import de.mczul.chaosexpected.meta.projects.Project;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
