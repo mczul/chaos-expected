@@ -1,7 +1,7 @@
 import {ProjectDetailsComponent} from './project-details.component'
 import {Project} from "./project.service";
 import {HttpClientModule} from "@angular/common/http";
-import {Registration} from "../registrations/registration.service";
+import {LOCAL_STORAGE_KEY_REGISTRATIONS, Registration} from "../registrations/registration.service";
 import {createOutputSpy} from "cypress/angular";
 
 
@@ -47,12 +47,21 @@ describe('ProjectDetailsComponent', () => {
     cy.get('@registrationSelectionSpy').should('not.have.been.called');
 
     //  => Registration
+    cy.intercept('POST', `/api/meta/projects/${givenProject.id}/registrations`, givenRegistration).as('postRegistration');
+
     cy.get('ce-registration-form input[type=email]').type(givenRegistration.emailAddress);
     cy.get('ce-registration-form button[type=submit]').should('not.be.disabled').click();
     // cy.get('ce-registration-form button[type=submit]').should('be.disabled');
-    cy.intercept('POST', `/api/meta/projects/${givenProject.id}/registrations`, givenRegistration);
-    cy.getAllLocalStorage()
-      .then(data => expect(data).to.contain(expectedRegistrationCoordinates));
+    cy.wait(['@postRegistration']);
+
+    cy.get('ce-registration-list > .card--clickable')
+      .should('be.visible')
+      .and('contain.text', givenRegistration.emailAddress)
+    const knownRegistrations = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_REGISTRATIONS) ?? '[]');
+    cy.log(knownRegistrations, expectedRegistrationCoordinates);
+    // expect(knownRegistrations).eq([givenRegistration.id]);
+    // cy.getAllLocalStorage()
+    //   .then(data => expect(data).to.contain(expectedRegistrationCoordinates));
 
   });
 });

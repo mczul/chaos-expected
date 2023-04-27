@@ -3,7 +3,7 @@ import {catchError, combineLatest, map, materialize, Observable, of, take, tap} 
 import {HttpClient, HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RegistrationCreateEvent} from "./registration-form.component";
 
-const LOCAL_STORAGE_KEY_REGISTRATIONS = 'ce-registrations';
+export const LOCAL_STORAGE_KEY_REGISTRATIONS = 'ce-registrations';
 
 export namespace Registration {
 
