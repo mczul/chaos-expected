@@ -6,11 +6,10 @@
     "start": "ng serve --configuration development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "ct": "ng ct",
-    "e2e": "ng e2e",
-    "cypress:open": "cypress open",
-    "cypress:run:e2e": "cypress run --e2e",
-    "cypress:run:ct": "cypress run --component"
+    "dev:form:e2e": "ng run form:e2e",
+    "dev:form:ct": "ng run form:ct",
+    "ci:form:e2e": "cypress run --e2e",
+    "ci:form:ct": "cypress run --component"
   },
   "private": true,
   "dependencies": {

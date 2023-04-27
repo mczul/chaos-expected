@@ -1,16 +1,17 @@
 <form [formGroup]="state" (ngSubmit)="handleSubmit()">
   <fieldset>
-    <legend>Kontaktdaten</legend>
+    <legend>Contact</legend>
     <section class="input-row">
-      <label for="accountMailAddress">E-Mail-Adresse</label>
+      <label for="accountMailAddress">eMail</label>
       <input type="email"
              id="accountMailAddress"
+             ceDefaultFocus
              [formControl]="state.controls.emailAddress">
     </section>
   </fieldset>
   <section class="button-row">
     <button type="submit"
-            [disabled]="state.invalid">Registrieren
+            [disabled]="state.invalid || active">Register
     </button>
   </section>
 </form>

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-
+import {DefaultFocusDirective} from "../util/default-focus.directive";
 export interface RegistrationCreateEvent {
   projectId: string; // a bit hacky... but useful
   emailAddress: string;
@@ -10,7 +10,7 @@ export interface RegistrationCreateEvent {
 @Component({
   selector: 'ce-registration-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DefaultFocusDirective],
   templateUrl: './registration-form.component.html',
   styles: []
 })
@@ -20,6 +20,9 @@ export class RegistrationFormComponent {
     projectId: new FormControl<string>('', {validators: [Validators.required], nonNullable: true,}),
     emailAddress: new FormControl<string>('', {validators: [Validators.required, Validators.email], nonNullable: true,})
   });
+
+  @Input()
+  active = false;
 
   @Input()
   set projectId(value: string) {

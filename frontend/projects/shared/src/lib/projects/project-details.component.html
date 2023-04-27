@@ -1,0 +1,16 @@
+<ng-template #loading>
+  <h3 data-testid="loading-indicator">Loading registrations...</h3>
+</ng-template>
+
+<ce-project-info *ngIf="!!project" [info]="project">
+  <ng-container *ngIf="registrationsLoaded else loading">
+    <ng-container *ngIf="registrations | async as knownRegistrations">
+      <ce-registration-form *ngIf="knownRegistrations.length === 0"
+                            [projectId]="project!.id"
+                            [active]="registrationActive"
+                            (complete)="handleNewRegistration($event)"/>
+
+      <ce-registration-list [entries]="knownRegistrations" (selection)="handleRegistrationSelection($event)"/>
+    </ng-container>
+  </ng-container>
+</ce-project-info>

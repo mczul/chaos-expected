@@ -1,12 +1,12 @@
 <section>
   <ng-template #loading>
-    <h3>Loading known projects...</h3>
+    <h3 data-testid="loading-indicator">Loading known projects...</h3>
   </ng-template>
 
   <ng-container *ngIf="projectListLoaded | async else loading">
     <ng-container  *ngIf="projectList | async as projects">
       <ng-template #noProjects>
-        <h3>No known projects.</h3>
+        <h3 data-testid="no-known-projects-info">No known projects.</h3>
       </ng-template>
       <ce-project-list *ngIf="projects.length > 0 else noProjects" [entries]="projects"
                        (selection)="handleProjectSelection($event)"/>

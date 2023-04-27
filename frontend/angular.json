@@ -110,8 +110,7 @@
         "cypress-run": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "form:serve",
-            "configFile": "projects/form/cypress.config.js"
+            "devServerTarget": "form:serve"
           },
           "configurations": {
             "production": {
@@ -123,8 +122,7 @@
           "builder": "@cypress/schematic:cypress",
           "options": {
             "watch": true,
-            "headless": false,
-            "configFile": "projects/form/cypress.config.js"
+            "headless": false
           }
         },
         "ct": {
