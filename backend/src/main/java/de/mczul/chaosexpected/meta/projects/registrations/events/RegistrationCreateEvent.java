@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.meta.projects.registration.events;
+package de.mczul.chaosexpected.meta.projects.registrations.events;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,6 +1,6 @@
-package de.mczul.chaosexpected.meta.projects.registration;
+package de.mczul.chaosexpected.meta.projects.registrations;
 
-import de.mczul.chaosexpected.meta.projects.registration.events.RegistrationCreateEvent;
+import de.mczul.chaosexpected.meta.projects.registrations.events.RegistrationCreateEvent;
 import de.mczul.chaosexpected.common.IdLookupMapper;
 import de.mczul.chaosexpected.meta.projects.IdToProject;
 import org.mapstruct.Mapper;

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+/src/data-generator/venv/
+/src/data-generator/out/
