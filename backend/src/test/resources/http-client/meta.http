@@ -1,5 +1,5 @@
 ### Get Projects
-GET http://localhost:8080/api/meta/projects
+GET http://localhost:8080/api/meta/projects?sort=startsAt,desc
 Authorization: Basic user password
 Accept: application/json
 

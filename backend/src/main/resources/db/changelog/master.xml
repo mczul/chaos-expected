@@ -2,12 +2,8 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="2023-03-24_init-db-objects" author="christoph.zuleger@gmail.com">
         <!-- Schema -->
@@ -21,51 +17,51 @@
             <column name="id"
                     type="uuid"
                     defaultValueComputed="random_uuid()">
-                <constraints primaryKey="true" />
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="description" type="text">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="created_at"
                     type="timestamp"
                     defaultValueComputed="now()">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="starts_at" type="timestamp">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="ends_at" type="timestamp">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <addUniqueConstraint constraintName="un_project_name"
                              schemaName="meta"
                              tableName="projects"
-                             columnNames="name" />
+                             columnNames="name"/>
 
         <createTable schemaName="meta" tableName="registrations">
             <column name="id" type="uuid">
-                <constraints primaryKey="true" />
+                <constraints primaryKey="true"/>
             </column>
             <column name="project_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <column name="email_address" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="created_at"
                     type="timestamp"
                     defaultValueComputed="now()">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <addUniqueConstraint constraintName="un_registration_email_address"
                              schemaName="meta"
                              tableName="registrations"
-                             columnNames="project_id, email_address" />
+                             columnNames="project_id, email_address"/>
         <addForeignKeyConstraint constraintName="fk_registration_project"
                                  baseTableSchemaName="meta"
                                  baseTableName="registrations"
@@ -73,20 +69,20 @@
                                  referencedTableSchemaName="meta"
                                  referencedTableName="projects"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
 
         <createTable schemaName="base" tableName="persons">
             <column name="id" type="uuid">
-                <constraints primaryKey="true" />
+                <constraints primaryKey="true"/>
             </column>
             <column name="registration_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <column name="first_name" type="varchar(120)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="last_name" type="varchar(120)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <addForeignKeyConstraint constraintName="fk_person_registration"
@@ -96,6 +92,10 @@
                                  referencedTableSchemaName="meta"
                                  referencedTableName="registrations"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="2023-05-05_import-generated-random-data" context="demo" author="christoph.zuleger@gmail.com">
+        <sqlFile path="changelog/demo/generated.sql" relativeToChangelogFile="true" />
     </changeSet>
 </databaseChangeLog>
