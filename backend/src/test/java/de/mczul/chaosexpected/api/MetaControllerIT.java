@@ -5,7 +5,7 @@ import de.mczul.chaosexpected.AppRoles;
 import de.mczul.chaosexpected.meta.projects.ProjectMapperImpl;
 import de.mczul.chaosexpected.meta.projects.ProjectRepository;
 import de.mczul.chaosexpected.meta.projects.registrations.RegistrationMapperImpl;
-import de.mczul.chaosexpected.meta.projects.registrations.RegistrationRepository;
+import de.mczul.chaosexpected.meta.registrations.RegistrationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;

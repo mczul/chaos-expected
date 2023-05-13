@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.meta.projects.registrations;
+package de.mczul.chaosexpected.meta.registrations;
 
 import org.mapstruct.Qualifier;
 

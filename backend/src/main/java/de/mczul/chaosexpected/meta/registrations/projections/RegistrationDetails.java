@@ -1,4 +1,4 @@
-package de.mczul.chaosexpected.meta.projects.registrations.projections;
+package de.mczul.chaosexpected.meta.registrations.projections;
 
 import de.mczul.chaosexpected.meta.projects.Project;
 import jakarta.persistence.Entity;

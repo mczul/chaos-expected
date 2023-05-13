@@ -1,7 +1,7 @@
 package de.mczul.chaosexpected.common;
 
-import de.mczul.chaosexpected.meta.projects.registrations.IdToRegistration;
-import de.mczul.chaosexpected.meta.projects.registrations.Registration;
+import de.mczul.chaosexpected.meta.registrations.IdToRegistration;
+import de.mczul.chaosexpected.meta.registrations.Registration;
 import de.mczul.chaosexpected.meta.projects.IdToProject;
 import de.mczul.chaosexpected.meta.projects.Project;
 import jakarta.persistence.EntityManager;

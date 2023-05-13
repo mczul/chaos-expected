@@ -1,6 +1,6 @@
 package de.mczul.chaosexpected.meta.projects;
 
-import de.mczul.chaosexpected.meta.projects.registrations.Registration;
+import de.mczul.chaosexpected.meta.registrations.Registration;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
