@@ -13,16 +13,47 @@
         </sql>
 
         <!-- Tables -->
+        <createTable schemaName="meta" tableName="user_accounts">
+            <column name="id"
+                    type="uuid"
+                    defaultValueComputed="random_uuid()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_address"
+                    type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="password"
+                    type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_locked"
+                    type="boolean"
+                    defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey constraintName="pk_user_account"
+                       schemaName="meta"
+                       tableName="user_accounts"
+                       columnNames="id" />
+        <addUniqueConstraint constraintName="un_user_account_email_address"
+                             schemaName="meta"
+                             tableName="user_accounts"
+                             columnNames="email_address" />
+
         <createTable schemaName="meta" tableName="projects">
             <column name="id"
                     type="uuid"
                     defaultValueComputed="random_uuid()">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="text">
+            <column name="name"
+                    type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description"
+                    type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at"
@@ -30,13 +61,19 @@
                     defaultValueComputed="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="starts_at" type="timestamp">
+            <column name="starts_at"
+                    type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="ends_at" type="timestamp">
+            <column name="ends_at"
+                    type="timestamp">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addPrimaryKey constraintName="pk_project"
+                       schemaName="meta"
+                       tableName="projects"
+                       columnNames="id" />
         <addUniqueConstraint constraintName="un_project_name"
                              schemaName="meta"
                              tableName="projects"
@@ -44,7 +81,7 @@
 
         <createTable schemaName="meta" tableName="registrations">
             <column name="id" type="uuid">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="project_id" type="uuid">
                 <constraints nullable="false"/>
@@ -58,6 +95,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addPrimaryKey constraintName="pk_registration"
+                       schemaName="meta"
+                       tableName="registrations"
+                       columnNames="id" />
         <addUniqueConstraint constraintName="un_registration_email_address"
                              schemaName="meta"
                              tableName="registrations"
@@ -73,7 +114,7 @@
 
         <createTable schemaName="base" tableName="persons">
             <column name="id" type="uuid">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="registration_id" type="uuid">
                 <constraints nullable="false"/>
@@ -85,6 +126,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addPrimaryKey constraintName="pk_person"
+                       schemaName="base"
+                       tableName="persons"
+                       columnNames="id" />
         <addForeignKeyConstraint constraintName="fk_person_registration"
                                  baseTableSchemaName="base"
                                  baseTableName="persons"
@@ -96,6 +141,6 @@
     </changeSet>
 
     <changeSet id="2023-05-05_import-generated-random-data" context="demo" author="christoph.zuleger@gmail.com">
-        <sqlFile path="changelog/demo/generated.sql" relativeToChangelogFile="true" />
+        <sqlFile path="changelog/demo/generated.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

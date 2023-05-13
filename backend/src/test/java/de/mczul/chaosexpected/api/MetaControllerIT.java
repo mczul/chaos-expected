@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.mczul.chaosexpected.AppRoles;
 import de.mczul.chaosexpected.meta.projects.ProjectMapperImpl;
 import de.mczul.chaosexpected.meta.projects.ProjectRepository;
-import de.mczul.chaosexpected.meta.projects.registrations.RegistrationMapperImpl;
+import de.mczul.chaosexpected.meta.registrations.RegistrationMapperImpl;
 import de.mczul.chaosexpected.meta.registrations.RegistrationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
