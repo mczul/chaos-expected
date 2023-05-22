@@ -2,6 +2,7 @@ package de.mczul.chaosexpected.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.mczul.chaosexpected.AppRoles;
+import de.mczul.chaosexpected.SecurityConfig;
 import de.mczul.chaosexpected.meta.projects.ProjectMapperImpl;
 import de.mczul.chaosexpected.meta.projects.ProjectRepository;
 import de.mczul.chaosexpected.meta.registrations.RegistrationMapperImpl;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -30,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("API: /meta")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @WebMvcTest
+@Import(SecurityConfig.class)
 class MetaControllerIT {
     @MockBean
     protected ProjectRepository projectRepository;
